@@ -2,7 +2,7 @@
 
 This repository contains part of a group project focused on applying **data mining techniques** to the [MovieLens dataset](https://grouplens.org/datasets/movielens/) for recommendation analysis.
 
-🌐 Project demo/site: [movielens-data-mining.web.app](https://movielens-data-mining.web.app/)
+🌐 Project Info.: [movielens-data-mining.web.app](https://movielens-data-mining.web.app/)
 
 ## What is in this repository
 
