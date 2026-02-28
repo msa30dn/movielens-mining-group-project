@@ -4,75 +4,38 @@ This repository contains part of a group project focused on applying **data mini
 
 🌐 Project Info.: [movielens-data-mining.web.app](https://movielens-data-mining.web.app/)
 
-## What is in this repository
+## Repository purpose
 
-The current repository snapshot includes:
+This repo provides the data-engineering and mining assets for **Story B.1 (basket-rule mining)** in the broader MovieLens project.
 
-- `preprocessing/`: core data pipeline that ingests raw MovieLens CSV files, builds clean train/test tables, engineers features, and prepares Story B.1 transaction artifacts.
-- `story-module-b1/B1_Story_Module.ipynb`: Story B.1 mining notebook that runs frequent itemset and association-rule analysis over prepared transactions.
-- `requirements.txt`: Python dependencies for preprocessing, mining, visualization, and notebook/app workflows.
+At a high level, it provides:
+- A reusable preprocessing backbone that transforms raw MovieLens data into validated analytical tables and basket-style transaction views.
+- A Story B.1 notebook that mines frequent itemsets and association rules, then produces interpretation outputs and analysis artifacts.
+- Supporting scripts and dependency definitions used by the preprocessing and mining workflow.
 
-## Preprocessing (core pipeline)
+## What this repository includes
 
-The `preprocessing/core` package is the project backbone. It handles staged ingestion, validation, table contracts, split generation, feature creation, transaction construction, reduction, and audit reporting.
+- `preprocessing/core/`: the core pipeline package that handles ingestion, cleaning, validation, temporal splitting, feature generation, transaction assembly, reduction, and auditing.
+- `preprocessing/scripts/`: orchestration entrypoints for staging raw inputs and producing processed run outputs.
+- `story-module-b1/B1_Story_Module.ipynb`: the Story B.1 analysis notebook for basket mining, rule generation, quality filtering, decoding, and diagnostics.
+- `story-module-b1/story_b1_demo_app/`: a lightweight demo application for Story B.1 outputs.
+- `requirements.txt`: Python dependency set for the project modules and notebook workflows.
 
-### Pipeline phases
+## What it provides (outputs)
 
-- **Phase 0-1 (ingest/staging):** Read raw CSVs and write Parquet staging files (`movies_raw.parquet`, `ratings_raw.parquet`, `tags_raw.parquet`, `links_raw.parquet`, plus optional genome files).
-- **Phase 2 (clean + validate):** Build canonical clean tables and run schema/data validation.
-- **Phase 3 (temporal split):** Build train/test interaction splits (`global` or `per_user` policy).
-- **Phase 4 (feature factory + transactions):** Generate user/movie features and `transactions_train.parquet`.
-- **Phase 4.5 (reduction):** Create `transactions_train_reduced.parquet` plus token/basket reduction diagnostics.
-- **Phase 5 (audit):** Write end-of-run audit checks and summary gates.
+The preprocessing and Story B.1 components together produce:
+- **Structured data artifacts** such as clean dimensions/facts, train-test interaction tables, features, and transaction tables.
+- **Reduced basket artifacts** for mining-focused experiments (including token and basket statistics).
+- **Association-rule artifacts** and related diagnostics used to evaluate recommendation patterns and cross-genre behavior.
+- **Run-level reports** (metadata, audit summaries, and analysis outputs) that support reproducibility and interpretation.
 
-### Run preprocessing
+## Story B.1 scope in this repo
 
-1. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-2. Build staging files once from the raw MovieLens folder:
-
-```bash
-python preprocessing/scripts/build_raw_staging.py --raw data/raw/ml-latest --staging data/raw_staging
-```
-
-3. Run the processed pipeline:
-
-```bash
-python preprocessing/scripts/build_processed.py --staging data/raw_staging --out data/processed
-```
-
-Key CLI options for processed runs:
-- `--split-policy {global,per_user}`
-- `--test-frac <float>`
-- `--cutoff-date <YYYY-MM-DD[ HH:MM:SS]>` (global policy)
-- `--run-tag <name>`
-
-Pipeline outputs are versioned under `data/processed/<run_id>/` with:
-- `tables/` (clean tables, train/test interactions, features, transactions, reduced transactions)
-- `reports/` (build logs, metadata, split/reduction reports, and audit report)
-
-## Story B.1 notebook overview
-
-`story-module-b1/B1_Story_Module.ipynb` is the Story B.1 mining and analysis layer. It consumes preprocessing outputs (especially transaction tables and lookups) and focuses on:
-
-- Basket preparation for `mlxtend`
-- Frequent itemset mining (pair-focused)
-- Association-rule generation with confidence/lift thresholds
-- Optional rule quality gates for stronger evidence and anti-popularity controls
-- Rule decoding/categorization and exploratory visualizations
-- Cross-genre structure analysis and output artifact writing
-
-Open the notebook with:
-
-```bash
-jupyter notebook story-module-b1/B1_Story_Module.ipynb
-```
-
-> Note: Run preprocessing first so Story B.1 has the expected transaction and lookup inputs.
+Story B.1 in this repository is focused on **association-rule discovery from user behavior baskets**. The notebook layer consumes preprocessing outputs and supports:
+- Frequent itemset mining (pair-focused for interpretability)
+- Association-rule generation with threshold-based filtering
+- Rule quality gating and popularity-bias-aware diagnostics
+- Decoded, human-readable rule exploration and summary analysis
 
 ## Team & collaboration
 
