@@ -37,10 +37,6 @@ Story B.1 in this repository is focused on **association-rule discovery from use
 - Rule quality gating and popularity-bias-aware diagnostics
 - Decoded, human-readable rule exploration and summary analysis
 
-## Team & collaboration
-
-This is a collaborative group project. Contributions are tracked through Git commits and pull requests.
-
 ## License
 
 Licensed under the [Apache License 2.0](LICENSE).
