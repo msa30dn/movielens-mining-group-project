@@ -4,43 +4,38 @@ This repository contains part of a group project focused on applying **data mini
 
 🌐 Project Info.: [movielens-data-mining.web.app](https://movielens-data-mining.web.app/)
 
-## What is in this repository
+## Repository purpose
 
-The current repository snapshot includes:
+This repo provides the data-engineering and mining assets for **Story B.1 (basket-rule mining)** in the broader MovieLens project.
 
-- `story-module-b1/B1_Story_Module.ipynb`: an evaluation and interpretation notebook for Story B.1 basket-rule mining outputs.
-- `requirements.txt`: Python dependencies for data processing, mining, visualization, and notebook/app workflows.
+At a high level, it provides:
+- A reusable preprocessing backbone that transforms raw MovieLens data into validated analytical tables and basket-style transaction views.
+- A Story B.1 notebook that mines frequent itemsets and association rules, then produces interpretation outputs and analysis artifacts.
+- Supporting scripts and dependency definitions used by the preprocessing and mining workflow.
 
-## Story B.1 notebook overview
+## What this repository includes
 
-`B1_Story_Module.ipynb` is a **read-only evaluation layer** designed to analyze outputs produced by a separate mining notebook (`B_basket_rules.ipynb`).
+- `preprocessing/core/`: the core pipeline package that handles ingestion, cleaning, validation, temporal splitting, feature generation, transaction assembly, reduction, and auditing.
+- `preprocessing/scripts/`: orchestration entrypoints for staging raw inputs and producing processed run outputs.
+- `story-module-b1/B1_Story_Module.ipynb`: the Story B.1 analysis notebook for basket mining, rule generation, quality filtering, decoding, and diagnostics.
+- `story-module-b1/story_b1_demo_app/`: a lightweight demo application for Story B.1 outputs.
+- `requirements.txt`: Python dependency set for the project modules and notebook workflows.
 
-It focuses on:
+## What it provides (outputs)
 
-- Association rule quality diagnostics (support, confidence, lift)
-- Popularity-bias analysis using token statistics
-- Rule coverage and structural summaries
-- Human-readable interpretation helpers for rule neighborhoods
-- Optional held-out recommendation metrics (e.g., hit-rate@K, MRR) for movie-only rule runs
+The preprocessing and Story B.1 components together produce:
+- **Structured data artifacts** such as clean dimensions/facts, train-test interaction tables, features, and transaction tables.
+- **Reduced basket artifacts** for mining-focused experiments (including token and basket statistics).
+- **Association-rule artifacts** and related diagnostics used to evaluate recommendation patterns and cross-genre behavior.
+- **Run-level reports** (metadata, audit summaries, and analysis outputs) that support reproducibility and interpretation.
 
-The notebook expects previously generated artifacts under Story B output folders (including parquet tables and run reports), then summarizes and interprets the mined rule sets.
+## Story B.1 scope in this repo
 
-## Quick start
-
-1. Create a Python environment.
-2. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Open the notebook:
-
-```bash
-jupyter notebook story-module-b1/B1_Story_Module.ipynb
-```
-
-> Note: The notebook evaluates existing mining outputs; ensure the expected Story B artifact directories are available in your local data layout.
+Story B.1 in this repository is focused on **association-rule discovery from user behavior baskets**. The notebook layer consumes preprocessing outputs and supports:
+- Frequent itemset mining (pair-focused for interpretability)
+- Association-rule generation with threshold-based filtering
+- Rule quality gating and popularity-bias-aware diagnostics
+- Decoded, human-readable rule exploration and summary analysis
 
 ## Team & collaboration
 
